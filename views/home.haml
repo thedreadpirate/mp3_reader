@@ -1,0 +1,26 @@
+!!!
+%html
+	%head
+		%script(src="/scripts/jquery.js")
+		%script(src="/scripts/jqueryui.js")
+		%script(src="/scripts/angular.js")
+		%script(src="/scripts/autocomplete.js")
+		%script(src="/scripts/home.js")
+		%link{:type => "text/css", :rel => "stylesheet", :href => "/styles/jquery-ui.css"}
+		:css
+			.ac-items{
+			background-color: #F6F3F3;
+			color: #A3A3A3;
+			}
+			.ac-wrapper{
+			width: 40%;
+			}
+			.ac-wrapper *{
+			width: inherit;
+			}
+
+	%body{:"ng-app"=>"mp3Reader", :"ng-controller"=>"homeCtrl"}
+		%div
+			%ng-autocomplete{:'on-select'=>'clicked' ,:'advanced-display'=>"item['title'] + ' by ' + item['artist']", :'retrieval-method'=>"getFiles", :'max-results'=>"15"}
+			%div
+				{{selected}}
