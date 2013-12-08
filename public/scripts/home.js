@@ -14,14 +14,13 @@ mp3Reader.factory('mp3service', function($http){
 });
 
 mp3Reader.controller('homeCtrl', function($scope, $timeout, mp3service){
-    $scope.selected = [];
 
     $scope.getFiles = function(input, max_results){
     	return mp3service.getFileList(input, max_results);
     }
 
 	$scope.clicked = function(selected){
-		$scope.selected.push(selected);
+		$scope.selected = selected;
         $scope.currently_playing = selected.path;
         $timeout(function(){
             var audio = document.getElementById('audio');

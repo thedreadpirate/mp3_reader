@@ -23,8 +23,8 @@
         %div
             %ng-autocomplete{:'on-select'=>'clicked', :class=>"listing" ,:'advanced-display'=>"albumList.html", :'retrieval-method'=>"getFiles", :'max-results'=>"15", :'min-length'=>"3"}
             %div
-                %div{:'ng-repeat'=>"item in selected"}
-                    {{item}}
+                %div
+                    Now playing: {{selected.title}} by {{ selected.artist }}
             %audio{:id=>'audio', :controls => true}
                 %source{:src=>"{{ currently_playing }}"}
                 Your browser does not support the audio element.
