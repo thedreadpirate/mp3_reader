@@ -26,7 +26,7 @@ directive('ngAutocomplete', function($templateCache, $compile, $timeout){
             scope.onBlur = function(){
                 $timeout(function(){
                     scope.focussed = false;
-                }, 50);
+                }, 200);
             }
 
             scope.onFocus = function(){
@@ -56,7 +56,7 @@ directive('ngAutocomplete', function($templateCache, $compile, $timeout){
 
             var base_template = '<div class="ac-wrapper" style="width:inherit">' +
                                 '    <input type="text" style="width:inherit" ng-model="ngModel" ng-blur="onBlur()" ng-focus="onFocus()" />' +
-                                '    <div class="ac-items" style="width:inherit" ng-show="focussed">' +
+                                '    <div class="ac-items" style="width:inherit; position: absolute; z-index: 1000;" ng-show="focussed">' +
                                 '       <div class="ac-item" style="width:inherit" ng-click="itemSelected(item)" ng-repeat="item in items">' +
                                             scope.getTemplate() +
                                 '        </div>' +
