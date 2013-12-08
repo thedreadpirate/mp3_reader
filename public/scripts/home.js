@@ -14,12 +14,13 @@ mp3Reader.factory('mp3service', function($http){
 });
 
 mp3Reader.controller('homeCtrl', function($scope, mp3service){
+    $scope.selected = [];
 
     $scope.getFiles = function(input, max_results){
     	return mp3service.getFileList(input, max_results);
     }
 
 	$scope.clicked = function(selected){
-		$scope.selected = selected;
+		$scope.selected.push(selected);
 	};
 });
