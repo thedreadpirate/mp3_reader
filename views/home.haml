@@ -10,14 +10,25 @@
 			color: #A3A3A3;
 			}
 			.ac-wrapper{
-			width: 40%;
+			width: 60%;
 			}
 			.ac-wrapper *{
 			width: inherit;
 			}
+			.item-listing{
+				border-bottom: 1px;
+				border-bottom-style: solid;
+			}
 
 	%body{:"ng-app"=>"mp3Reader", :"ng-controller"=>"homeCtrl"}
+		%script{:type=>"text/ng-template", :id=>"albumList.html"}
+			<div>
+			<div ng-repeat="item in items" class="item-listing">
+			<div><strong>{{item.title}}</strong></div>
+			<div>by {{item.artist}}</div>
+			</div>
+			</div>
 		%div
-			%ng-autocomplete{:'on-select'=>'clicked' ,:'advanced-display'=>"item['title'] + ' by ' + item['artist']", :'retrieval-method'=>"getFiles", :'max-results'=>"15", :'min-length'=>"3"}
+			%ng-autocomplete{:'on-select'=>'clicked' ,:'advanced-display'=>"albumList.html", :'retrieval-method'=>"getFiles", :'max-results'=>"15", :'min-length'=>"3"}
 			%div
 				{{selected}}
