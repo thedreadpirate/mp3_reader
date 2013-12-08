@@ -25,3 +25,6 @@
             %div
                 %div{:'ng-repeat'=>"item in selected"}
                     {{item}}
+            %audio{:id=>'audio', :controls => true}
+                %source{:src=>"{{ currently_playing }}"}
+                Your browser does not support the audio element.

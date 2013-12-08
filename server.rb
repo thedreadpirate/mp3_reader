@@ -4,7 +4,7 @@ require 'haml'
 require 'json'
 
 def read_mp3s
-	files = Dir['../../Shared/Music/**/*.mp3']
+	files = Dir['public/mp3s/**/*.mp3']
 
 	mp3_files = Array.new
 
@@ -13,7 +13,7 @@ def read_mp3s
 			unless fileref.null?
     			tag = fileref.tag
 
-    			mp3_files << {:path => file,
+    			mp3_files << {:path => file.sub('public/',''),
                         :title => tag.title,
                         :artist => tag.artist,
                         :genre => tag.genre}
@@ -21,9 +21,6 @@ def read_mp3s
   		end
 	end  # File is automatically closed at block end
 
-	3000.times do |count|
-		mp3_files << {:path=>"test/#{count}", :title=>"#{count}", :artist => "#{count.to_s[0]}", :genre => 'test'}
-	end
 	mp3_files
 end
 

@@ -1,4 +1,4 @@
-*.mp3
+/public/mp3s
 *.iws
 .idea/workspace.xml
 .idea/tasks.xml

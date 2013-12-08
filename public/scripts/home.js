@@ -13,7 +13,7 @@ mp3Reader.factory('mp3service', function($http){
 	};
 });
 
-mp3Reader.controller('homeCtrl', function($scope, mp3service){
+mp3Reader.controller('homeCtrl', function($scope, $timeout, mp3service){
     $scope.selected = [];
 
     $scope.getFiles = function(input, max_results){
@@ -22,5 +22,12 @@ mp3Reader.controller('homeCtrl', function($scope, mp3service){
 
 	$scope.clicked = function(selected){
 		$scope.selected.push(selected);
+        $scope.currently_playing = selected.path;
+        $timeout(function(){
+            var audio = document.getElementById('audio');
+            audio.load();
+            audio.play();
+        }, 250);
 	};
+
 });
