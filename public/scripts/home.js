@@ -88,7 +88,14 @@ mp3Reader.controller('homeCtrl', function($scope, $timeout, mp3service){
     }
 
 	$scope.clicked = function(selected){
-		$scope.playlist.unshift(selected);
+
+		var itemIndex = $scope.playlist.indexOf(selected);
+		if(itemIndex == -1){
+			$scope.playlist.unshift(selected);
+		} else{
+			var moved = $scope.playlist.splice(itemIndex,1)[0];
+			$scope.playlist.unshift(moved);
+		}
 
 		if ($scope.readyToPlay != true){
 			$scope.readyToPlay = true;
