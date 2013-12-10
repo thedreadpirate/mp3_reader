@@ -13,6 +13,41 @@ mp3Reader.factory('mp3service', function($http){
 	};
 });
 
+mp3Reader.directive('audioPlayer', ['$timeout', function($timeout){
+	return {
+		restrict: 'E',
+		replace: true,
+		template: '    <audio controls>' +
+    	          '        <source src="{{ currently_playing.path }}" /> Your browser does not support the audio element. ' +
+        	      '    </audio>',
+    	link: function($scope, element, attrs){
+    		audio = element[0];
+
+            $scope.$watch('readyToPlay', function(newVal, oldVal){
+                if(newVal !== undefined && newVal === true){
+                	if(!$scope.playing){
+                    	setSong();
+                	}
+                }
+            }, true);
+
+            var setSong = function(){
+                $scope.currently_playing = $scope.getNextSong();
+
+                $timeout(function(){
+                    audio.load();
+                    audio.play();
+                    playing = true;
+                }, 250);
+            };
+
+    		element.bind('ended', setSong);
+
+			setSong();
+		}
+    };
+}]);
+
 mp3Reader.directive('ngAudio', ['$timeout', function($timeout){
 	// Runs during compile
 	return {
@@ -22,62 +57,50 @@ mp3Reader.directive('ngAudio', ['$timeout', function($timeout){
 //	    scope: {
 //            selectedSongs: '='
 //        }, // {} = isolate, true = child, false/undefined = no change
-		// cont­rol­ler: function($scope, $element, $attrs, $transclue) {},
+		// controller: function($scope, $element, $attrs, $transclue) {},
 		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
         replace: true,
 		// template: '',
 		// templateUrl: '',
-        template: '<div><audio controls>' +
-                  '    <source src="{{ currently_playing }}" /> Your browser does not support the audio element. ' +
-                  '</audio>' +
-                  '<div> Now playing: {{playlist[0].title}} by {{ playlist[0].artist }}</div>' +
-                  '<div> Upcoming:' +
-                  '   <div ng-repeat="item in playlist" ng-if="$index !== 0"></div>' +
-                  '</div></div>',
+        template: '<div>' +
+        		  '    <audio-player></audio-player>' +
+                  '    <div> Now playing: {{currently_playing.title }} by {{ currently_playing.artist }}</div>' +
+                  '    <div> Upcoming:' +
+                  '       <div ng-repeat="item in playlist" ng-if="item.$$hashKey != currently_playing.$$hashKey">{{ item.title }} by {{ item.artist }}</div>' +
+                  '    </div>' + 
+                  '</div>',
 		// transclude: true,
 		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
 		link: function($scope, element, attrs) {
-            var audio = element.find('audio');
-
-			element.bind('ended', $scope.setSong);
-
-            var playlist = [];
-
-            $scope.$watch('selected', function(newVal, oldVal){
-                if(newVal !== undefined && newVal !== oldVal){
-                    playlist.push(newVal);
-                    setSong();
-                }
-            }, true);
-
-            var setSong = function(){
-
-
-                $timeout(function(){
-                    audio.load();
-                    audio.play();
-                    playing = true;
-                }, 250);
-            }
+			var i = 0;
 		}
 	};
 }]);
 
 mp3Reader.controller('homeCtrl', function($scope, $timeout, mp3service){
 
-    $sc
+    $scope.playlist = [];
+    $scope.playing = false;
+    $scope.readyToPlay = false;
+
     $scope.getFiles = function(input, max_results){
     	return mp3service.getFileList(input, max_results);
     }
 
 	$scope.clicked = function(selected){
-		$scope.selected = selected;
+		$scope.playlist.unshift(selected);
 
-        var removed = playlist.splice(0,1);
-        playlist.push(removed);
-
-        var selected = playlist[0];
-
-        $scope.currently_playing = selected.path;
+		if ($scope.readyToPlay != true){
+			$scope.readyToPlay = true;
+		}
 	};
+
+	$scope.getNextSong = function(){
+		var to_play = $scope.playlist.splice(0,1)[0];
+		
+		if(to_play !== undefined){
+			$scope.playlist.push(to_play);
+			return to_play;
+		}
+	}
 });
