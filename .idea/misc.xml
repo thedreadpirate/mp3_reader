@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectKey">
-    <option name="state" value="project://bbdc16ff-0c62-42e5-b9bc-21fd6540d8c5" />
+    <option name="state" value="https://github.com/thedreadpirate/mp3_reader.git" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="ruby-1.9.3-p194" project-jdk-type="RUBY_SDK">
     <output url="file://$PROJECT_DIR$/out" />
